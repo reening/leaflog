@@ -1,0 +1,8 @@
+<ul>
+    {% for taxon in taxa %}
+    <li>
+        <a href="#{{ taxon.id }}">{{ taxon.name }}</a>
+        {% include 'collection/components/taxa_node.html' with taxa=taxon.children.all %}
+    </li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,51 @@
+{% load static %}
+{% load startswith %}
+
+<ul class="uk-nav uk-nav-default">
+    <li>
+        <a href="{% url 'index' %}">
+            <img src="{% static 'collection/img/leaflog.svg' %}" alt="leaflog" />
+        </a>
+    </li>
+    <li class="uk-nav-header uk-text-large">{% firstof request.user.first_name request.user.username %}</li>
+    <li>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <input type="submit" class="uk-button uk-button-link" value="Logout" />
+        </form>
+    </li>
+
+    <li class="uk-nav-divider"></li>
+
+    <!--
+    <li class="uk-active"><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="/">Map</a></li>
+
+    <li class="uk-nav-divider"></li>
+    -->
+
+    <li class="uk-nav-header">Search</li>
+
+    <form class="uk-search uk-search-default uk-background-default uk-margin-small-bottom" action="/">
+        <span uk-search-icon></span>
+        <input class="uk-search-input" type="search" placeholder="" name="q">
+    </form>
+
+    <li>
+        <a class="uk-small" href="#">Advanced Search</a>
+    </li>
+
+    <li class="uk-nav-divider"></li>
+    <li class="uk-nav-header">Collection</li>
+    <li class="{% if request.resolver_match.url_name|startswith:'location-' %}uk-active{% endif %}"><a href="{% url 'location-list' %}">Locations</a></li>
+    <li><a href="{% url 'taxon-list' %}">Taxa</a></li>
+    <li><a href="/">Accessions</a></li>
+    
+    {% if request.user.is_superuser %}
+    <li class="uk-nav-divider"></li>
+    <li class="uk-nav-header">Administration</li>
+    <li><a href="/">Users</a></li>
+    {% endif %}
+
+    <li>[{{ request.resolver_match.url_name }}]</li>
+</ul>

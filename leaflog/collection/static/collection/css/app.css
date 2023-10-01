@@ -1,0 +1,7 @@
+tr .ll-table-hover {
+    display: none;
+}
+
+tr:hover .ll-table-hover {
+    display: initial;
+}

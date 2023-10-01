@@ -1,0 +1,18 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+<ul class="uk-breadcrumb">
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><span>Taxa</span></li>
+</ul>
+
+<h1>Taxa</h1>
+
+{% if taxa_list %}
+{% include 'collection/components/taxa_node.html' with taxa=taxa_list %}
+{% else %}
+<a href="#">Create your first taxon</a>
+{% endif %}
+
+{% endblock %}

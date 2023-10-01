@@ -1,0 +1,38 @@
+{% extends './base.html' %}
+
+{% block body %}
+<div class="uk-container uk-container-xsmall">
+<form method="post" action="{% url 'login' %}">
+{% csrf_token %}
+<input type="hidden" name="next" value="{{ next }}">
+
+<div class="uk-card uk-card-default uk-margin-large-top">
+    <div class="uk-card-header uk-dark">
+        <h3 class="uk-card-title">Login</h3>
+    </div>
+    <div class="uk-card-body">
+        {% if form.errors %}
+            <div class="uk-alert-danger" uk-alert>
+                <a class="uk-alert-close" uk-close></a>
+                <p>Your username and password didn't match. Please try again.</p>
+            </div>
+        {% endif %}
+
+        <div class="uk-form-stacked">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="{{ form.username.auto_id }}">{{ form.username.label }}</label>
+                <div class="uk-form-controls">{{ form.username }}</div>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="{{ form.password.auto_id }}">{{ form.password.label }}</label>
+                <div class="uk-form-controls">{{ form.password }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="uk-card-footer">
+        <input type="submit" class="uk-button uk-button-primary uk-float-right" value="login">
+    </div>
+</div>
+</form>
+</div>
+{% endblock %}

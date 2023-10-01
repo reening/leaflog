@@ -1,0 +1,12 @@
+{% extends './base.html' %}
+
+{% block content %}
+<ul class="uk-breadcrumb">
+    <li><span>Home</span></li>
+</ul>
+
+<h1>Welcome, {{ request.user.username }}!</h1>
+
+<p>Present a log of recent events here, and maybe a little map or list of plants.</p>
+
+{% endblock %}

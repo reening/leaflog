@@ -1,0 +1,31 @@
+{% load static %}
+{% load startswith %}
+
+<!DOCTYPE html>
+<html class="uk-background-muted">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>leaflog.org</title>
+
+    <link rel="icon" type="image/png" href="{% static 'collection/img/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'collection/css/uikit.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'collection/css/app.css' %}" />
+</head>
+<body>
+{% block body %}
+<div class="uk-container uk-margin-top uk-margin-bottom">
+    {% block container %}
+    <div class="uk-margin-top uk-margin-bottom" uk-grid>
+        <div class="uk-width-1-4 uk-padding">{% include './components/nav.html' %}</div>
+        <div class="uk-width-3-4 uk-card uk-card-default uk-padding">{% block content %}{% endblock %}</div>
+    </div>
+    {% endblock %}
+</div>
+{% endblock %}
+
+<script src="{% static 'collection/js/uikit.min.js' %}"></script>
+<script src="{% static 'collection/js/uikit-icons.min.js' %}"></script>
+</body>
+</html>

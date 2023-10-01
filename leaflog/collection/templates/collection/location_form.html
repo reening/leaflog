@@ -1,0 +1,47 @@
+{% extends './base.html' %}
+
+{% block content %}
+<ul class="uk-breadcrumb">
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'location-list' %}">Locations</a></li>
+    <li><span>{% firstof object.name 'New location' %}</span></li>
+</ul>
+
+<h1>
+    {% if object %}
+    Edit {{ object.name }}
+    {% else %}
+    New location
+    {% endif %}
+</h1>
+
+{% if form.errors %}
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>Please correct the form input!</p>
+    </div>
+{% endif %}
+
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="uk-form-stacked">
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
+            <div class="uk-form-controls">{{ form.name }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+            <div class="uk-form-controls">{{ form.description }}</div>
+        </div>
+    </div>
+
+    {% if object %}
+    <a class="uk-button uk-button-default" href="{% url 'location-detail' slug=object.slug %}">Cancel</a>
+    {% else %}
+    <a class="uk-button uk-button-default" href="{% url 'location-list' %}">Cancel</a>
+    {% endif %}
+
+    <input type="submit" class="uk-button uk-button-primary" value="Save" />
+</form>
+
+{% endblock %}
