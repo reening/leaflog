@@ -14,4 +14,5 @@ urlpatterns = [
     path('location/<slug:slug>/edit', views.LocationUpdateView.as_view(), name='location-update'),
     path('location/<slug:slug>/delete', views.LocationDeleteView.as_view(), name='location-delete'),
     path('taxon/', views.TaxonListView.as_view(), name='taxon-list'),
+    path('taxon/search', views.TaxonSearchView.as_view(), name='taxon-search'),
 ]

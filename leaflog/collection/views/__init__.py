@@ -29,3 +29,4 @@ def index(request):
 
 
 from .location import *
+from .taxon import *

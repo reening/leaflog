@@ -38,7 +38,7 @@
     <li class="uk-nav-divider"></li>
     <li class="uk-nav-header">Collection</li>
     <li class="{% if request.resolver_match.url_name|startswith:'location-' %}uk-active{% endif %}"><a href="{% url 'location-list' %}">Locations</a></li>
-    <li><a href="{% url 'taxon-list' %}">Taxa</a></li>
+    <li class="{% if request.resolver_match.url_name|startswith:'taxon-' %}uk-active{% endif %}"><a href="{% url 'taxon-list' %}">Taxa</a></li>
     <li><a href="/">Accessions</a></li>
     
     {% if request.user.is_superuser %}

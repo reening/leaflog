@@ -1,7 +1,11 @@
 <ul>
     {% for taxon in taxa %}
     <li>
-        <a href="#{{ taxon.id }}">{{ taxon.name }}</a>
+        <a href="#{{ taxon.id }}">
+            {{ taxon.get_name_display|safe }}
+        </a>
+        <span class="uk-badge">{{ taxon.get_rank_display }}</span>
+
         {% include 'collection/components/taxa_node.html' with taxa=taxon.children.all %}
     </li>
     {% endfor %}
