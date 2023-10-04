@@ -18,8 +18,8 @@
 <div class="uk-container uk-margin-top uk-margin-bottom">
     {% block container %}
     <div class="uk-margin-top uk-margin-bottom" uk-grid>
-        <div class="uk-width-1-4 uk-padding">{% include './components/nav.html' %}</div>
-        <div class="uk-width-3-4 uk-card uk-card-default uk-padding">{% block content %}{% endblock %}</div>
+        <div class="uk-width-1-4@m uk-padding">{% include './components/nav.html' %}</div>
+        <div class="uk-width-3-4@m uk-card uk-card-default uk-padding">{% block content %}{% endblock %}</div>
     </div>
     {% endblock %}
 </div>
@@ -27,5 +27,8 @@
 
 <script src="{% static 'collection/js/uikit.min.js' %}"></script>
 <script src="{% static 'collection/js/uikit-icons.min.js' %}"></script>
+<script src="{% static 'collection/js/app.js' %}"></script>
+
+<script type="text/javascript">{% block page_script %}{% endblock %}</script>
 </body>
 </html>

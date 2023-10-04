@@ -107,6 +107,13 @@ class Taxon(models.Model):
             
         return self.name
 
+    def get_rank_index(self):
+        for i, rank in enumerate(self.TAXON_RANKS):
+            if rank[0] == self.rank:
+                return i
+
+        return -1
+
     def save(self, *args, **kwargs):
         self.display_name = strip_tags(self.get_name_display())
         super().save(*args, **kwargs)
@@ -115,7 +122,10 @@ class Taxon(models.Model):
         data = {
             'id': self.id,
             'name': self.get_name_display(),
-            'rank': self.get_rank_display(),
+            'strippedName': strip_tags(self.get_name_display()),
+            'rank': self.rank,
+            'rankName': self.get_rank_display(),
+            'rankOrder': self.get_rank_index(),
         }
 
         return data

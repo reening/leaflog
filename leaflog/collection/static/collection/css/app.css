@@ -1,7 +1,33 @@
-tr .ll-table-hover {
-    display: none;
+.ll-tree-node .uk-icon:not(.uk-preserve) [stroke*='#']:not(.uk-preserve) {
+    stroke: transparent !important;
 }
 
-tr:hover .ll-table-hover {
-    display: initial;
+.ll-tree-node:hover .uk-icon:not(.uk-preserve) [stroke*='#']:not(.uk-preserve) {
+    stroke: currentcolor !important;
+}
+
+.ll-taxon-input-taxon {
+    cursor: text;
+}
+
+.ll-taxon-input-results {
+    padding: 0;
+}
+
+.ll-taxon-input-results li {
+    cursor: pointer;
+    display: block;
+    background: #fff;
+    color: #666;
+    border: 1px solid #e5e5e5;
+    border-bottom-width: 0;
+    padding: 10px 10px;
+}
+
+.ll-taxon-input-results li:last-child {
+    border-bottom-width: 1px;
+}
+
+.ll-taxon-input-results li:hover {
+    background-color: #f8f8f8;
 }

@@ -8,11 +8,17 @@ urlpatterns = [
     path('login', views.CollectionLoginView.as_view(), name='login'),
     path('logout', views.CollectionLogoutView.as_view(), name='logout'),
     path('', views.index, name='index'),
+
     path('location/', views.LocationListView.as_view(), name='location-list'),
     path('location/new', views.LocationCreateView.as_view(), name='location-create'),
     path('location/<slug:slug>/', views.LocationDetailView.as_view(), name='location-detail'),
     path('location/<slug:slug>/edit', views.LocationUpdateView.as_view(), name='location-update'),
     path('location/<slug:slug>/delete', views.LocationDeleteView.as_view(), name='location-delete'),
+
     path('taxon/', views.TaxonListView.as_view(), name='taxon-list'),
+    path('taxon/new', views.TaxonCreateView.as_view(), name='taxon-create'),
     path('taxon/search', views.TaxonSearchView.as_view(), name='taxon-search'),
+    path('taxon/<int:pk>/', views.TaxonDetailView.as_view(), name='taxon-detail'),
+    path('taxon/<int:pk>/edit', views.TaxonUpdateView.as_view(), name='taxon-update'),
+    path('taxon/<int:pk>/delete', views.TaxonDeleteView.as_view(), name='taxon-delete'),
 ]

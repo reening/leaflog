@@ -18,11 +18,6 @@ class CollectionLogoutView(auth_views.LogoutView):
     next_page = '/'
 
 
-class TaxonListView(LoginRequiredMixin, ListView):
-    queryset = Taxon.objects.filter(parent__isnull=True).order_by('name')
-    context_object_name = 'taxa_list'
-
-
 @login_required
 def index(request):
     return render(request, 'collection/index.html')

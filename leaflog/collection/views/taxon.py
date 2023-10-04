@@ -6,7 +6,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 
-# from ..forms import TaxonForm
+from ..forms import TaxonForm
 from ..models import Taxon
 
 
@@ -23,24 +23,25 @@ class TaxonSearchView(LoginRequiredMixin, View):
         return JsonResponse({'results': results})
 
 
-# class TaxonListView(LoginRequiredMixin, ListView):
-#     model = Taxon
-# 
-# 
-# class TaxonDetailView(LoginRequiredMixin, DetailView):
-#     model = Taxon
-# 
-# 
-# class TaxonCreateView(LoginRequiredMixin, CreateView):
-#     model = Taxon
-#     form_class = TaxonForm
-# 
-# 
-# class TaxonUpdateView(LoginRequiredMixin, UpdateView):
-#     model = Taxon
-#     form_class = TaxonForm
-# 
-# 
-# class TaxonDeleteView(LoginRequiredMixin, DeleteView):
-#     model = Taxon
-#     success_url = reverse_lazy('taxon-list')
+class TaxonListView(LoginRequiredMixin, ListView):
+    queryset = Taxon.objects.filter(parent__isnull=True).order_by('name')
+    context_object_name = 'taxa_list'
+
+
+class TaxonDetailView(LoginRequiredMixin, DetailView):
+    model = Taxon
+
+
+class TaxonCreateView(LoginRequiredMixin, CreateView):
+    model = Taxon
+    form_class = TaxonForm
+
+
+class TaxonUpdateView(LoginRequiredMixin, UpdateView):
+    model = Taxon
+    form_class = TaxonForm
+
+
+class TaxonDeleteView(LoginRequiredMixin, DeleteView):
+    model = Taxon
+    success_url = reverse_lazy('taxon-list')

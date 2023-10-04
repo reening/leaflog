@@ -1,0 +1,16 @@
+{% extends './base.html' %}
+
+{% block content %}
+<ul class="uk-breadcrumb">
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'taxon-list' %}">Taxa</a></li>
+    <li><span>{{ object.get_name_display|safe }}</span></li>
+</ul>
+
+<h1>{{ object.get_name_display|safe }}</h1>
+
+<hr>
+
+Henlo
+
+{% endblock %}

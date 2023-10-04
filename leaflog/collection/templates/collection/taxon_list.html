@@ -9,10 +9,12 @@
 
 <h1>Taxa</h1>
 
+<a class="uk-button uk-button-primary" href="{% url 'taxon-create' %}">New taxon</a>
+
 {% if taxa_list %}
-{% include 'collection/components/taxa_node.html' with taxa=taxa_list %}
+{% include 'collection/components/taxon_list_node.html' with taxa=taxa_list %}
 {% else %}
-<a href="#">Create your first taxon</a>
+<a href="{% url 'taxon-create' %}">Create your first taxon</a>
 {% endif %}
 
 {% endblock %}

@@ -1,0 +1,13 @@
+<ul>
+    {% for taxon in taxa %}
+    <li>
+        <span class="ll-tree-node">
+            {{ taxon.get_rank_display }}
+            <a href="{% url 'taxon-detail' pk=taxon.id %}">{{ taxon.get_name_display|safe }}</a>
+            <a href="{% url 'taxon-create' %}?parent={{ taxon.id }}" class="uk-icon-link ll-tree-add" uk-icon="plus-circle"></a>
+        </span>
+
+        {% include 'collection/components/taxon_list_node.html' with taxa=taxon.children.all %}
+    </li>
+    {% endfor %}
+</ul>
