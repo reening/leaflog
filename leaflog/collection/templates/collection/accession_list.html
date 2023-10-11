@@ -1,0 +1,56 @@
+{% extends './base.html' %}
+
+{% block content %}
+
+<ul class="uk-breadcrumb">
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><span>Accessions</span></li>
+</ul>
+
+<h1>Accessions</h1>
+
+<a class="uk-button uk-button-primary" href="{% url 'accession-create' %}">New accession</a>
+
+<table class="uk-table uk-table-middle uk-table-small uk-table-divider uk-table-justify">
+    <thead>
+        <tr>
+            <th>Acc. #</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th class="uk-table-shrink">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for accession in object_list %}
+        <tr>
+            <td><a href="{% url 'accession-detail' pk=accession.id %}">{{ accession.accnum }}</td>
+            <td>{{ accession.taxon.get_name_display|safe }}</td>
+            <td>{{ accession.location.name }}</td>
+            <td class="uk-table-shrink uk-text-nowrap">
+                <a class="uk-icon-button" href="{% url 'accession-update' pk=accession.id %}" uk-icon="pencil"></a>
+                <a class="uk-icon-button" href="{% url 'accession-delete' pk=accession.id %}" uk-icon="close"></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<ul class="uk-pagination uk-flex-center">
+    {% if page_obj.has_previous %}
+        <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-previous></span></a></li>
+        <li><a href="?page=1">1</a></li>
+    {% else %}
+        <li class="uk-disabled"><a href="#"><span uk-pagination-previous></span></a></li>
+    {% endif %}
+
+    <li class="uk-active"><span>{{ page_obj.number }}</span></li>
+
+    {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a></li>
+        <li><a href="?page={{ page_obj.previous_page_number }}"><span uk-pagination-next></span></a></li>
+    {% else %}
+        <li class="uk-disabled"><a href="#"><span uk-pagination-next></span></a></li>
+    {% endif %}
+</ul>
+
+{% endblock %}

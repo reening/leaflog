@@ -4,12 +4,12 @@
 <ul class="uk-breadcrumb">
     <li><a href="{% url 'index' %}">Home</a></li>
     <li><a href="{% url 'taxon-list' %}">Taxa</a></li>
-    <li><span>{% firstof object.name 'New taxon' %}</span></li>
+    <li><span>{% firstof taxon.get_name_display|safe 'New taxon' %}</span></li>
 </ul>
 
 <h1>
     {% if object %}
-    Edit {{ object.name }}
+    Edit taxon
     {% else %}
     New taxon
     {% endif %}
@@ -30,6 +30,10 @@
             <div class="uk-form-controls">{{ form.parent }}</div>
         </div>
         <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.rank.auto_id }}">{{ form.rank.label }}</label>
+            <div class="uk-form-controls">{{ form.rank }}</div>
+        </div>
+        <div class="uk-margin">
             <label class="uk-form-label" for="{{ form.name.auto_id }}">{{ form.name.label }}</label>
             <div class="uk-form-controls">{{ form.name }}</div>
         </div>
@@ -47,5 +51,65 @@
 {% endblock %}
 
 {% block page_script %}
-let taxonSelect = new TaxonSelect('.ll-taxon-input');
+const taxonRanks = [
+    { rankOrder: 0,  value: 'class',      name: 'Class'      },
+    { rankOrder: 1,  value: 'subclass',   name: 'Subclass'   },
+    { rankOrder: 2,  value: 'order',      name: 'Order'      },
+    { rankOrder: 3,  value: 'suborder',   name: 'Suborder'   },
+    { rankOrder: 4,  value: 'family',     name: 'Family'     },
+    { rankOrder: 5,  value: 'subfamily',  name: 'Subfamily'  },
+    { rankOrder: 6,  value: 'tribe',      name: 'Tribe'      },
+    { rankOrder: 7,  value: 'subtribe',   name: 'Subtribe'   },
+    { rankOrder: 8,  value: 'genus',      name: 'Genus'      },
+    { rankOrder: 9,  value: 'subgenus',   name: 'Subgenus'   },
+    { rankOrder: 10, value: 'section',    name: 'Section'    },
+    { rankOrder: 11, value: 'subsection', name: 'Subsection' },
+    { rankOrder: 12, value: 'series',     name: 'Series'     },
+    { rankOrder: 13, value: 'subseries',  name: 'Subseries'  },
+    { rankOrder: 14, value: 'species',    name: 'Species'    },
+    { rankOrder: 15, value: 'subspecies', name: 'Subspecies' },
+    { rankOrder: 16, value: 'variety',    name: 'Variety'    },
+    { rankOrder: 17, value: 'subvariety', name: 'Subvariety' },
+    { rankOrder: 18, value: 'cultivar',   name: 'Cultivar'   },
+    { rankOrder: 19, value: 'form',       name: 'Form'       },
+    { rankOrder: 20, value: 'subform',    name: 'Subform'    },
+];
+
+let parentInput = document.getElementById('{{ form.parent.auto_id }}');
+let parentSelect = new TaxonSelect(parentInput);
+
+let rankInput = document.getElementById('{{ form.rank.auto_id }}');
+
+parentSelect.addEventListener('change', function(e) {
+    let rankOrder = -1;
+    let oldValue = rankInput.value;
+    let oldValueInNewList = false;
+
+    if (e.detail) {
+        rankOrder = e.detail.rankOrder;
+    }
+
+    rankInput.innerHTML = '';
+
+    for (var rank of taxonRanks) {
+        if (rank.rankOrder <= rankOrder) {
+            continue;
+        }
+
+        if (rank.value == oldValue) {
+            oldValueInNewList = true;
+        }
+
+        rankInput.innerHTML += `<option value="${rank.value}">${rank.name}</option>`;
+    };
+
+    if (oldValueInNewList) {
+        rankInput.value = oldValue;
+    }
+});
+
+let urlParameters = new URLSearchParams(window.location.search);
+if (urlParameters.has('parent')) {
+    parentSelect.value = urlParameters.get('parent');
+}
 {% endblock %}

@@ -6,28 +6,28 @@
     stroke: currentcolor !important;
 }
 
-.ll-taxon-input-taxon {
+.ll-taxonselect-displayname {
     cursor: text;
 }
 
-.ll-taxon-input-results {
+.ll-taxonselect-results {
+    margin: 0;
     padding: 0;
 }
 
-.ll-taxon-input-results li {
+.ll-taxonselect-results li {
     cursor: pointer;
     display: block;
     background: #fff;
     color: #666;
     border: 1px solid #e5e5e5;
-    border-bottom-width: 0;
     padding: 10px 10px;
 }
 
-.ll-taxon-input-results li:last-child {
-    border-bottom-width: 1px;
+.ll-taxonselect-results li:not(:first-child) {
+    border-top-width: 0;
 }
 
-.ll-taxon-input-results li:hover {
+.ll-taxonselect-results li:hover {
     background-color: #f8f8f8;
 }

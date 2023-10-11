@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.utils.html import strip_tags
 from django.utils.text import slugify
+from django.utils.timezone import now
 
 
 class Location(models.Model):
@@ -56,6 +57,9 @@ class Taxon(models.Model):
     parent = models.ForeignKey('Taxon', on_delete=models.CASCADE, blank=True, null=True, related_name='children')
     hybrid = models.BooleanField(blank=False, null=False, default=False)
 
+    def get_absolute_url(self):
+        return reverse('taxon-detail', kwargs={'pk': self.id})
+    
     def __str__(self):
         return self.name
 
@@ -121,11 +125,42 @@ class Taxon(models.Model):
     def to_json(self):
         data = {
             'id': self.id,
-            'name': self.get_name_display(),
-            'strippedName': strip_tags(self.get_name_display()),
+            'name': self.name,
+            'displayName': strip_tags(self.get_name_display()),
+            'displayNameHtml': self.get_name_display(),
             'rank': self.rank,
             'rankName': self.get_rank_display(),
             'rankOrder': self.get_rank_index(),
         }
 
         return data
+
+
+class Accession(models.Model):
+    ACCESSION_STATUS = [
+        ('c', 'Current'),
+        ('d', 'Non-current due to death'),
+        ('t', 'Non-current due to transfer'),
+        ('s', 'Stored in dormant state'),
+        ('o', 'Other'),
+    ]
+
+    ACCESSION_MATERIAL = [
+        ('p', 'Whole plant'),
+        ('s', 'Seed or spore'),
+        ('v', 'Vegetative part (cutting)'),
+        ('t', 'Tissue culture'),
+        ('o', 'Other'),
+    ]
+
+    accnum = models.CharField(max_length=200, verbose_name='Accession number', unique=True)
+    taxon = models.ForeignKey('Taxon', on_delete=models.CASCADE)
+    location = models.ForeignKey('Location', on_delete=models.CASCADE, null=True, blank=True)
+    status = models.CharField(max_length=1, choices=ACCESSION_STATUS, default='o')
+    material = models.CharField(max_length=1, choices=ACCESSION_MATERIAL, default='o')
+    source = models.CharField(max_length=200, null=True, blank=True)
+    collected = models.DateField(default=now)
+    description = models.TextField(null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse('accession-detail', kwargs={'pk': self.id})

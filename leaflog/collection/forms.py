@@ -1,11 +1,8 @@
-from django import forms
+from django.forms import ModelForm
+from django.forms.widgets import HiddenInput, DateInput
 from django.contrib.auth.forms import AuthenticationForm
 
-from .models import Location, Taxon
-
-
-class TaxonWidget(forms.Widget):
-    template_name = 'collection/widgets/taxon.html'
+from .models import Location, Taxon, Accession
 
 
 class CollectionAuthenticationForm(AuthenticationForm):
@@ -15,7 +12,7 @@ class CollectionAuthenticationForm(AuthenticationForm):
         self.fields['password'].widget.attrs.update({'class': 'uk-input', 'placeholder': 'Password' })
 
 
-class LocationForm(forms.ModelForm):
+class LocationForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'uk-input'})
@@ -26,14 +23,37 @@ class LocationForm(forms.ModelForm):
         fields = ['name', 'description']
 
 
-class TaxonForm(forms.ModelForm):
+class TaxonForm(ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].widget.attrs.update({'class': 'uk-input'})
+        self.fields['rank'].widget.attrs.update({'class': 'uk-input'})
+        self.fields['parent'].widget.attrs.update({'data-id': 'parent'})
 
     class Meta:
         model = Taxon
-        fields = ['name', 'parent']
+        fields = ['parent', 'rank', 'name']
         widgets = {
-            'parent': TaxonWidget,
+            'parent': HiddenInput,
+        }
+
+
+class AccessionForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['accnum'].widget.attrs.update({'class': 'uk-input', 'autocomplete': 'off'})
+        self.fields['location'].widget.attrs.update({'class': 'uk-input'})
+        self.fields['taxon'].widget.attrs.update({'data-id': 'taxon'})
+        self.fields['status'].widget.attrs.update({'class': 'uk-input'})
+        self.fields['material'].widget.attrs.update({'class': 'uk-input'})
+        self.fields['source'].widget.attrs.update({'class': 'uk-input'})
+        self.fields['collected'].widget.attrs.update({'class': 'uk-input'})
+        self.fields['description'].widget.attrs.update({'class': 'uk-textarea'})
+
+    class Meta:
+        model = Accession
+        fields = ['accnum', 'taxon', 'location', 'status', 'material', 'source', 'collected', 'description']
+        widgets = {
+            'taxon': HiddenInput,
+            'collected': DateInput,
         }

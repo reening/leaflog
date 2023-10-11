@@ -25,3 +25,4 @@ def index(request):
 
 from .location import *
 from .taxon import *
+from .accession import *

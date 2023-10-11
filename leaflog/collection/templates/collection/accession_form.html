@@ -1,0 +1,76 @@
+{% extends './base.html' %}
+
+{% block content %}
+<ul class="uk-breadcrumb">
+    <li><a href="{% url 'index' %}">Home</a></li>
+    <li><a href="{% url 'accession-list' %}">Accessions</a></li>
+    <li><span>{% firstof accession.accnum 'New accession' %}</span></li>
+</ul>
+
+<h1>
+    {% if object %}
+    Edit accession
+    {% else %}
+    New accession
+    {% endif %}
+</h1>
+
+{% if form.errors %}
+    <div class="uk-alert-danger" uk-alert>
+        <a class="uk-alert-close" uk-close></a>
+        <p>Please correct the form input!</p>
+    </div>
+{% endif %}
+
+<form method="post" action="" autocomplete="off">
+    {% csrf_token %}
+    <div class="uk-form-stacked">
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.accnum.auto_id }}">{{ form.accnum.label }}</label>
+            <div class="uk-form-controls">{{ form.accnum }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.taxon.auto_id }}">{{ form.taxon.label }}</label>
+            <div class="uk-form-controls">{{ form.taxon }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.location.auto_id }}">{{ form.location.label }}</label>
+            <div class="uk-form-controls">{{ form.location }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.status.auto_id }}">{{ form.status.label }}</label>
+            <div class="uk-form-controls">{{ form.status }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.material.auto_id }}">{{ form.material.label }}</label>
+            <div class="uk-form-controls">{{ form.material }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.source.auto_id }}">{{ form.source.label }}</label>
+            <div class="uk-form-controls">{{ form.source }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.collected.auto_id }}">{{ form.collected.label }}</label>
+            <div class="uk-form-controls">{{ form.collected }}</div>
+        </div>
+        <div class="uk-margin">
+            <label class="uk-form-label" for="{{ form.description.auto_id }}">{{ form.description.label }}</label>
+            <div class="uk-form-controls">{{ form.description }}</div>
+        </div>
+    </div>
+
+    {% if object %}
+    <a class="uk-button uk-button-default" href="{% url 'accession-detail' pk=object.id %}">Cancel</a>
+    {% else %}
+    <a class="uk-button uk-button-default" href="{% url 'accession-list' %}">Cancel</a>
+    {% endif %}
+
+    <input type="submit" class="uk-button uk-button-primary" value="Save" />
+</form>
+
+{% endblock %}
+
+{% block page_script %}
+let taxonInput = document.getElementById('{{ form.taxon.auto_id }}');
+let taxonSelect = new TaxonSelect(taxonInput);
+{% endblock %}

@@ -7,6 +7,42 @@
 
 <h1>Welcome, {{ request.user.username }}!</h1>
 
-<p>Present a log of recent events here, and maybe a little map or list of plants.</p>
+<div class="uk-child-width-expand@s uk-text-center uk-grid-match" uk-grid>
+    <div>
+        <div class="uk-card uk-card-default uk-text-left">
+            <a href="{% url 'location-list' %}" class="uk-card-body uk-link-toggle">
+                <h3 class="uk-card-title uk-link-heading">Locations</h3>
+                <p>Create locations where accessions are stored</p>
+            </a>
+            <div class="uk-card-footer">
+                <a href="{% url 'location-create' %}" class="uk-button uk-button-text">New location</a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="uk-card uk-card-default uk-text-left">
+            <a href="{% url 'taxon-list' %}" class="uk-card-body uk-link-toggle">
+                <h3 class="uk-card-title uk-link-heading">Taxa</h3>
+                <p>Define taxa to categorize collection items</p>
+            </a>
+            <div class="uk-card-footer">
+                <a href="{% url 'taxon-create' %}" class="uk-button uk-button-text">New taxon</a>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div class="uk-card uk-card-default uk-text-left">
+            <a href="{% url 'accession-list' %}" class="uk-card-body uk-link-toggle">
+                <h3 class="uk-card-title uk-link-heading">Accessions</h3>
+                <p>Create accessions in a collection</p>
+            </a>
+            <div class="uk-card-footer">
+                <a href="{% url 'accession-create' %}" class="uk-button uk-button-text">New accession</a>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

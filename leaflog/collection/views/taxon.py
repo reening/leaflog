@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseBadRequest, JsonResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic.detail import DetailView
@@ -10,7 +11,7 @@ from ..forms import TaxonForm
 from ..models import Taxon
 
 
-class TaxonSearchView(LoginRequiredMixin, View):
+class ApiTaxonSearchView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         q = request.GET.get('q')
 
@@ -21,6 +22,11 @@ class TaxonSearchView(LoginRequiredMixin, View):
         results = [ i.to_json() for i in taxa ]
 
         return JsonResponse({'results': results})
+
+class ApiTaxonGetView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        taxon = get_object_or_404(Taxon, pk=kwargs['pk'])
+        return JsonResponse(taxon.to_json())
 
 
 class TaxonListView(LoginRequiredMixin, ListView):

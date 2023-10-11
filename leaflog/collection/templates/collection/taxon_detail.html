@@ -9,8 +9,10 @@
 
 <h1>{{ object.get_name_display|safe }}</h1>
 
-<hr>
-
-Henlo
+<div>
+    <a class="uk-button uk-button-primary" href="{% url 'taxon-create' %}?parent={{ taxon.id }}">Create subtaxon</a>
+    <a class="uk-button uk-button-primary" href="{% url 'taxon-update' pk=object.id %}">Edit taxon</a>
+    <a class="uk-button uk-button-danger" href="{% url 'taxon-delete' pk=object.id %}">Delete taxon</a>
+</div>
 
 {% endblock %}
